@@ -10,7 +10,7 @@ public class Section {
 	private LocalDate closestPickupDate;
 	private int currentHeight = 0;
 	private int height;
-
+	
 	public Section(int height) {
 		storage = new ArrayList<Container>();
 		this.height = height;
@@ -27,10 +27,20 @@ public class Section {
 		return false;
 	}
 	
+	public boolean dispatchContainer(LocalDate date) {
+		if(!storage.isEmpty() && (closestPickupDate.isBefore(date) || closestPickupDate.isEqual(date))) {
+			storage.remove(currentHeight - 1);
+			currentHeight--;
+			return true;
+		}
+		return false;
+	}
+	
 	private void add(Container container) {
 		storage.add(container);
 		closestPickupDate = container.getPickupDate();
 		currentHeight++;
+
 	}
 	
 	public boolean hasPlace() {
@@ -64,4 +74,18 @@ public class Section {
 	public List<Container> getContainers() {
 		return storage;
 	}
+
+	public int getContainersQty() {
+		return storage.size();
+	}
+
+	public List<Container> getStorage() {
+		return storage;
+	}
+
+	public void setStorage(List<Container> storage) {
+		this.storage = storage;
+	}
+	
+	
 }
